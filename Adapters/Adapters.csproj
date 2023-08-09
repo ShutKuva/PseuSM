@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adapters.Abstractions\Adapters.Abstractions.csproj" />
+    <ProjectReference Include="..\Adapters.Entities\Adapters.Entities.csproj" />
+    <ProjectReference Include="..\BLL.Abstractions\BLL.Abstractions.csproj" />
+    <ProjectReference Include="..\BLL.Entities\BLL.Entities.csproj" />
+    <ProjectReference Include="..\Tools.Abstractions\Tools.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>
