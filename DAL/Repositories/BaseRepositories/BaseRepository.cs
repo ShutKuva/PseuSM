@@ -1,10 +1,13 @@
 ﻿using DAL.Abstractions.Repository;
+using DAL.Entities.BaseEntities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq.Expressions;
 
 namespace DAL.Repositories.BaseRepositories
 {
-    public class BaseRepository<TEntity, TId, TPredicate> : IRepository<TEntity, TId, TPredicate>
-        where TEntity : class
+    public class BaseRepository<TEntity> : IRepository<TEntity, int, Expression<Func<TEntity, bool>>>
+        where TEntity : BaseEntity
     {
         protected readonly MainContext _context;
 
@@ -15,27 +18,44 @@ namespace DAL.Repositories.BaseRepositories
 
         public virtual async Task CreateEntityAsync(TEntity entity)
         {
-            EntityEntry<TEntity> entityEntry = await _context.Set<TEntity>().AddAsync(entity);
+            await _context.Set<TEntity>().AddAsync(entity);
         }
 
-        public Task DeleteEntityAsync(TId id)
+        public virtual async Task DeleteEntityAsync(int id)
         {
-            throw new NotImplementedException();
+            TEntity? entityToDelete = await GetEntityByIdAsync(id);
+
+            if (entityToDelete == null)
+            {
+                return;
+            }
+
+            _context.Set<TEntity>().Remove(entityToDelete);
         }
 
-        public Task<IEnumerable<TEntity>> GetEntitiesByPredicateAsync(TPredicate predicate)
+        public virtual async Task<IEnumerable<TEntity>> GetEntitiesByPredicateAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public Task<TEntity> GetEntityByIdAsync(TId id)
+        public virtual Task<TEntity?> GetEntityByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return _context.Set<TEntity>().FirstOrDefaultAsync(user => user.Id == id);
         }
 
-        public Task UpdateEntityAsync(TEntity entity)
+        public virtual async Task UpdateEntityAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            TEntity? oldEntity = await GetEntityByIdAsync(entity.Id);
+
+            if (oldEntity == null)
+            {
+                await CreateEntityAsync(entity);
+                return;
+            }
+
+            EntityEntry<TEntity> oldEntityEntry = _context.Set<TEntity>().Entry(oldEntity);
+
+            oldEntityEntry.CurrentValues.SetValues(entity);
         }
     }
 }

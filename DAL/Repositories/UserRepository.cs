@@ -5,7 +5,8 @@ using System.Linq.Expressions;
 
 namespace DAL.Repositories
 {
-    public class UserRepository : BaseRepository<User, int, Expression<Func<User, int, Expression<Func<User, bool>>>>>
+    public class UserRepository : 
+        BaseRepository<User>
     {
         public UserRepository(MainContext context) : base(context)
         {
