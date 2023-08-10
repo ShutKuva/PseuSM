@@ -16,6 +16,7 @@ namespace PseuSM
 
             Adapters.DependencyInjector.Inject(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
             Core.DependencyInjector.Inject(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
+            Tools.DependencyInjector.Inject(builder.Services, builder.Configuration);
 
             var app = builder.Build();
 

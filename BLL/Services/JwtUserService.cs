@@ -1,32 +1,27 @@
-﻿using BLL.Entities;
-using Core;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using DAL.Abstractions.UnitOfWork;
-using DALUser = DAL.Entities.User;
-using System.Linq.Expressions;
-using DAL.Abstractions.Repository;
-using BLL.Services.BaseServices;
-using AutoMapper;
+﻿using AutoMapper;
 using BLL.Abstractions.Services;
+using BLL.Entities;
+using BLL.Services.BaseServices;
+using Core;
+using DAL.Abstractions.UnitOfWork;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using DALUser = DAL.Entities.User;
 
 namespace BLL.Services
 {
     public class JwtUserService : ServiceBase<DALUser>, IJwtService
     {
         private readonly JwtProperties _jwtProperties;
-        private readonly IMapper _mapper;
 
         public JwtUserService(
             IUnitOfWork unitOfWork,
-            IMapper mapper,
             IOptions<JwtProperties> jwtPropertiesOptions) : base(unitOfWork)
         {
             _jwtProperties = jwtPropertiesOptions.Value ?? throw new ArgumentNullException(nameof(jwtPropertiesOptions));
-            _mapper = mapper;
         }
 
         public Task<string> GenerateAccessTokenAsync(User user)

@@ -12,6 +12,8 @@ namespace BLL
             serviceCollection.AddScoped<IJwtService, JwtUserService>();
             serviceCollection.AddScoped<IUserService, UserService>();
 
+            serviceCollection.AddAutoMapper(typeof(DependencyInjector));
+
             DAL.DependencyInjector.Inject(serviceCollection, configurations, isDevelopment);
         }
     }

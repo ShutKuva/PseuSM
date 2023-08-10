@@ -8,8 +8,7 @@ namespace Tools
     {
         public string Hash(string str)
         {
-            using HashAlgorithm sha = SHA256.Create();
-            return Encoding.UTF8.GetString(sha.ComputeHash(Encoding.UTF8.GetBytes(str)));
+            return Encoding.UTF8.GetString(SHA256.HashData(Encoding.UTF8.GetBytes(str)));
         }
     }
 }

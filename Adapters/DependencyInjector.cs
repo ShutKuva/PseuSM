@@ -10,6 +10,8 @@ namespace Adapters
         {
             serviceCollection.AddScoped<IRegularUserAdapter, RegularUserAdapter>();
 
+            serviceCollection.AddAutoMapper(typeof(DependencyInjector));
+
             BLL.DependencyInjector.Inject(serviceCollection, configuration, isDevelopment);
         }
     }
