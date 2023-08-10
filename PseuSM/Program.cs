@@ -14,6 +14,9 @@ namespace PseuSM
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            Adapters.DependencyInjector.Inject(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
+            Core.DependencyInjector.Inject(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

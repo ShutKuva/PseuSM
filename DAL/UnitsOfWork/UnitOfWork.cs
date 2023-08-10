@@ -5,7 +5,7 @@ using DAL.Repositories;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DAL.UnitOfWork
+namespace DAL.UnitsOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {

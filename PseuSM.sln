@@ -23,6 +23,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Entities", "DAL.Entitie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Entities", "BLL.Entities\BLL.Entities.csproj", "{869BB596-4F4B-499D-86C6-3247DBE4DA75}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{F646DA9E-D074-4C64-81BD-3C2F4300B5F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adapters.Entities", "Adapters.Entities\Adapters.Entities.csproj", "{E48A4CC0-BAB8-4CAA-8BA5-16326D9F8277}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Tools\Tools.csproj", "{3E2A9571-42BE-4C7A-AFEE-3989CBEE0CB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Abstractions", "Tools.Abstractions\Tools.Abstractions.csproj", "{626D34D4-5994-4D19-9DE5-B5594C7700D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PseuSM.Entities", "PseuSM.Entities\PseuSM.Entities.csproj", "{9BF120BC-48D0-4D07-B813-E3EF0805D09E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL.Entities", "BLL.Entities\BLL.Entities.csproj", "{869BB596-4F4B-499D-86C6-3247DBE4DA75}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F646DA9E-D074-4C64-81BD-3C2F4300B5F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adapters.Entities", "Adapters.Entities\Adapters.Entities.csproj", "{E48A4CC0-BAB8-4CAA-8BA5-16326D9F8277}"
