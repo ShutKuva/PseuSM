@@ -27,7 +27,7 @@ namespace DAL.UnitsOfWork
         {
             return Task.FromResult(typeof(IRepository<TEntity, TId, TPredicate>) switch
             {
-                IRepository<User, int, Expression<Func<User, bool>>> =>
+                Type type when type == typeof(IRepository<User, int, Expression<Func<User, bool>>>) =>
                     (IRepository<TEntity, TId, TPredicate>)TryToRetrieveSavedRepositoryOrSaveNew<IRepository<User, int, Expression<Func<User, bool>>>, UserRepository>()!,
                 _ => null
             });

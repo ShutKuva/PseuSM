@@ -18,6 +18,8 @@ namespace PseuSM
             Core.DependencyInjector.Inject(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
             Tools.DependencyInjector.Inject(builder.Services, builder.Configuration);
 
+            builder.Services.AddAutoMapper(typeof(Program));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
