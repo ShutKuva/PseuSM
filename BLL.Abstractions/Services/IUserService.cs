@@ -6,6 +6,7 @@ namespace BLL.Abstractions.Services
     public interface IUserService
     {
         Task<User> GetUserByCredentialsAsync(string login, string password);
+        Task<User> GetUserByIdAsync(int id);
         Task CreateUserAsync(User user);
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(User user);

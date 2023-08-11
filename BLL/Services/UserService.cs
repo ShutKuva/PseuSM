@@ -20,10 +20,7 @@ namespace BLL.Services
 
         public async Task<User> GetUserByCredentialsAsync(string login, string password)
         {
-            IRepository<DALUser, int, Expression<Func<DALUser, bool>>>? userRepository = await GetRepositoryAsync();
-
-            IEnumerable<DALUser> usersWithSameCredentials
-                = await userRepository.GetEntitiesByPredicateAsync(user => user.Login == login && user.Password == password);
+            IEnumerable<DALUser> usersWithSameCredentials = await GetUsersThatFitPredicate(user => user.Login == login && user.Password == password);
 
             if (!usersWithSameCredentials.Any())
             {
@@ -31,7 +28,19 @@ namespace BLL.Services
             }
 
             return _mapper.Map<DALUser, User>(usersWithSameCredentials.First());
-        } 
+        }
+
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            IEnumerable<DALUser> usersWithSameID = await GetUsersThatFitPredicate(user => user.Id == id);
+
+            if (!usersWithSameID.Any())
+            {
+                throw new ArgumentException("There is no user with this id");
+            }
+
+            return _mapper.Map<DALUser, User>(usersWithSameID.First());
+        }
 
         public async Task CreateUserAsync(User user)
         {
@@ -58,6 +67,13 @@ namespace BLL.Services
             await userRepository.DeleteEntityAsync(user.Id);
 
             await _unitOfWork.CommitAsync();
+        }
+
+        private async Task<IEnumerable<DALUser>> GetUsersThatFitPredicate(Expression<Func<DALUser, bool>> predicate)
+        {
+            IRepository<DALUser, int, Expression<Func<DALUser, bool>>>? userRepository = await GetRepositoryAsync();
+
+            return await userRepository.GetEntitiesByPredicateAsync(predicate);
         }
     }
 }

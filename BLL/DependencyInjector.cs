@@ -9,7 +9,7 @@ namespace BLL
     {
         public static void Inject(IServiceCollection serviceCollection, IConfiguration configurations, bool isDevelopment)
         {
-            serviceCollection.AddScoped<IJwtService, JwtUserService>();
+            serviceCollection.AddScoped<IJwtService, JwtService>();
             serviceCollection.AddScoped<IUserService, UserService>();
 
             serviceCollection.AddAutoMapper(typeof(DependencyInjector));

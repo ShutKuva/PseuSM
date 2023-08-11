@@ -13,10 +13,10 @@ namespace PseuSM.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IRegularUserAdapter _userAdapter;
+        private readonly IUserAuthAdapter _userAdapter;
         private readonly IMapper _mapper;
 
-        public AuthController(IRegularUserAdapter userAdapter, IMapper mapper)
+        public AuthController(IUserAuthAdapter userAdapter, IMapper mapper)
         {
             _userAdapter = userAdapter;
             _mapper = mapper;
@@ -36,6 +36,18 @@ namespace PseuSM.Controllers
         public async Task<IActionResult> LoginUser(LoginUser loginUser)
         {
             AdaptersJwtToken jwtToken = await _userAdapter.LoginUserAsync(_mapper.Map<LoginUser, AdapterLoginUser>(loginUser));
+
+            SetRefreshTokenInHttpOnlyCookie(jwtToken.RefreshToken);
+
+            return Ok(_mapper.Map<AdaptersJwtToken, JwtResponse>(jwtToken));
+        }
+
+        [HttpGet("refresh")]
+        public async Task<IActionResult> RefreshAccessToken()
+        {
+            string refreshToken = Request.Cookies.FirstOrDefault(cookie => cookie.Key == CookiesConstants.RefreshToken).Value;
+
+            AdaptersJwtToken jwtToken = await _userAdapter.RefreshTokensAsync(refreshToken);
 
             SetRefreshTokenInHttpOnlyCookie(jwtToken.RefreshToken);
 

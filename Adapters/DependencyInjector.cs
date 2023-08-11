@@ -8,7 +8,8 @@ namespace Adapters
     {
         public static void Inject(IServiceCollection serviceCollection, IConfiguration configuration, bool isDevelopment)
         {
-            serviceCollection.AddScoped<IRegularUserAdapter, RegularUserAdapter>();
+            serviceCollection.AddScoped<IUserAuthAdapter, UserAuthAdapter>();
+            serviceCollection.AddScoped<IUserAdapter, UserAdapter>();
 
             serviceCollection.AddAutoMapper(typeof(DependencyInjector));
 

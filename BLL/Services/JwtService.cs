@@ -13,11 +13,11 @@ using DALUser = DAL.Entities.User;
 
 namespace BLL.Services
 {
-    public class JwtUserService : ServiceBase<DALUser>, IJwtService
+    public class JwtService : ServiceBase<DALUser>, IJwtService
     {
         private readonly JwtProperties _jwtProperties;
 
-        public JwtUserService(
+        public JwtService(
             IUnitOfWork unitOfWork,
             IOptions<JwtProperties> jwtPropertiesOptions) : base(unitOfWork)
         {
@@ -44,6 +44,18 @@ namespace BLL.Services
             };
 
             return GetJwtTokenAsync(claims);
+        }
+
+        public Task<ClaimsPrincipal> ValidateTokenAsync(string token, bool justRead)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            ClaimsPrincipal result = handler.ValidateToken(token, new TokenValidationParameters
+            {
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtProperties.SecretKey)),
+                ValidateIssuerSigningKey = !justRead,
+            }, out _);
+
+            return Task.FromResult(result);
         }
 
         private Task<string> GetJwtTokenAsync(List<Claim> claims)

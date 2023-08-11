@@ -1,4 +1,5 @@
 ﻿using BLL.Entities;
+using System.Security.Claims;
 
 namespace BLL.Abstractions.Services
 {
@@ -6,5 +7,6 @@ namespace BLL.Abstractions.Services
     {
         Task<string> GenerateAccessTokenAsync(User user);
         Task<string> GenerateRefreshTokenAsync(User user);
+        Task<ClaimsPrincipal> ValidateTokenAsync(string token, bool justRead);
     }
 }

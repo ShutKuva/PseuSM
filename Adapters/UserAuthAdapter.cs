@@ -2,19 +2,21 @@
 using Adapters.Entities;
 using AutoMapper;
 using BLL.Abstractions.Services;
+using Core;
+using System.Security.Claims;
 using Tools.Abstractions;
 using BLLUser = BLL.Entities.User;
 
 namespace Adapters
 {
-    public class RegularUserAdapter : IRegularUserAdapter
+    public class UserAuthAdapter : IUserAuthAdapter
     {
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
         private readonly IHasher _hasher;
         private readonly IMapper _mapper;
 
-        public RegularUserAdapter(
+        public UserAuthAdapter(
             IUserService userService,
             IJwtService jwtService,
             IHasher hasher,
@@ -46,6 +48,21 @@ namespace Adapters
             return await FormJwtTokenAsync(user);
         }
 
+        public async Task<JwtToken> RefreshTokensAsync(string refreshToken)
+        {
+            ClaimsPrincipal accessTokenPrincipal = await _jwtService.ValidateTokenAsync(refreshToken, true);
+
+            BLLUser user = await _userService.GetUserByIdAsync(int.Parse(accessTokenPrincipal.Claims.FirstOrDefault(claim => claim.Type == UserClaimsConstants.Id)?.Value 
+                ?? throw new ArgumentException("Unable to resolve id claim")));
+
+            if (user.RefreshToken != refreshToken)
+            {
+                throw new ArgumentException("Invalid refresh token");
+            }
+
+            return await FormJwtTokenAsync(user);
+        }
+
         private async Task<JwtToken> FormJwtTokenAsync(BLLUser user)
         {
             string refreshToken = await _jwtService.GenerateRefreshTokenAsync(user);
@@ -66,6 +83,6 @@ namespace Adapters
         {
             user.RefreshToken = refreshToken;
             return _userService.UpdateUserAsync(user);
-        } 
+        }
     }
 }
