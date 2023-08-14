@@ -1,11 +1,12 @@
 ﻿using DAL.Abstractions.Repository;
 using DAL.Abstractions.UnitOfWork;
 using DAL.Entities;
+using DAL.Entities.Cloudinary;
 using DAL.Repositories;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DAL.UnitOfWork
+namespace DAL.UnitsOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -27,8 +28,14 @@ namespace DAL.UnitOfWork
         {
             return Task.FromResult(typeof(IRepository<TEntity, TId, TPredicate>) switch
             {
-                IRepository<User, int, Expression<Func<User, bool>>> =>
+                Type type when type == typeof(IRepository<User, int, Expression<Func<User, bool>>>) =>
                     (IRepository<TEntity, TId, TPredicate>)TryToRetrieveSavedRepositoryOrSaveNew<IRepository<User, int, Expression<Func<User, bool>>>, UserRepository>()!,
+                Type type when type == typeof(IRepository<Image, int, Expression<Func<Image, bool>>>) =>
+                    (IRepository<TEntity, TId, TPredicate>)TryToRetrieveSavedRepositoryOrSaveNew<IRepository<Image, int, Expression<Func<Image, bool>>>, ImageRepository>()!,
+                Type type when type == typeof(IRepository<ImagePlaceholder, int, Expression<Func<ImagePlaceholder, bool>>>) =>
+                    (IRepository<TEntity, TId, TPredicate>)TryToRetrieveSavedRepositoryOrSaveNew<IRepository<ImagePlaceholder, int, Expression<Func<ImagePlaceholder, bool>>>, ImagePlaceholderRepository>()!,
+                Type type when type == typeof(IRepository<CloudinaryImage, int, Expression<Func<CloudinaryImage, bool>>>) =>
+                    (IRepository<TEntity, TId, TPredicate>)TryToRetrieveSavedRepositoryOrSaveNew<IRepository<CloudinaryImage, int, Expression<Func<CloudinaryImage, bool>>>, CloudinaryImageRepository>()!,
                 _ => null
             });
         }
