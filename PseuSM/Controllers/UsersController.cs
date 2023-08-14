@@ -21,7 +21,7 @@ namespace PseuSM.Controllers
             _userAdapter = userAdapter;
         }
 
-        [Authorize(JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentUserInformation()
         {

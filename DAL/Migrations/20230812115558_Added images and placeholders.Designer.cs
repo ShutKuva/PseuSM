@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(MainContext))]
-    partial class MainContextModelSnapshot : ModelSnapshot
+    [Migration("20230812115558_Added images and placeholders")]
+    partial class Addedimagesandplaceholders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,23 +25,6 @@ namespace DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DAL.Entities.Cloudinary.CloudinaryImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CloudinaryImages");
-                });
-
             modelBuilder.Entity("DAL.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -46,9 +32,6 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CloudinaryImageId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
@@ -60,8 +43,6 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CloudinaryImageId");
 
                     b.HasIndex("UserId");
 
@@ -117,10 +98,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Image", b =>
                 {
-                    b.HasOne("DAL.Entities.Cloudinary.CloudinaryImage", null)
-                        .WithMany("Images")
-                        .HasForeignKey("CloudinaryImageId");
-
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany("Images")
                         .HasForeignKey("UserId");
@@ -137,11 +114,6 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Cloudinary.CloudinaryImage", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

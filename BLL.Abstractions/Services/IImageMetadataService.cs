@@ -4,7 +4,9 @@ namespace BLL.Abstractions.Services
 {
     public interface IImageMetadataService<TParams>
     {
-        public Task CreateMetadataFromStream(Stream stream, Image image, TParams parameters);
-        public Task DeleteMetadata(Image metadata);
+        public Task CreateMetadataFromStreamAsync(Stream stream, Image image, TParams parameters);
+        public Task AttachImageToAllMetadataFromSourceImageAsync(Image sourceImage, Image image);
+        public Task<string> GetReferenceAsync(Image image);
+        public Task DeleteMetadataAsync(Image metadata);
     }
 }

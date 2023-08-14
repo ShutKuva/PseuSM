@@ -6,23 +6,28 @@ using Core;
 using System.Security.Claims;
 using Tools.Abstractions;
 using BLLUser = BLL.Entities.User;
+using BLLImage = BLL.Entities.Image;
+using Core.Enums;
 
 namespace Adapters
 {
     public class UserAuthAdapter : IUserAuthAdapter
     {
         private readonly IUserService _userService;
+        private readonly IImageService _imageService;
         private readonly IJwtService _jwtService;
         private readonly IHasher _hasher;
         private readonly IMapper _mapper;
 
         public UserAuthAdapter(
             IUserService userService,
+            IImageService imageService,
             IJwtService jwtService,
             IHasher hasher,
             IMapper mapper)
         {
             _userService = userService;
+            _imageService = imageService;
             _jwtService = jwtService;
             _hasher = hasher;
             _mapper = mapper;
@@ -34,7 +39,16 @@ namespace Adapters
 
             BLLUser user = _mapper.Map<RegisterUser, BLLUser>(registerUser);
 
-            await _userService.CreateUserAsync(user);
+            user = await _userService.CreateUserAsync(user);
+
+            if (registerUser.AvatarStream == null)
+            {
+                await _imageService.CreatePlaceholderImageAsync(ImageTypes.Avatar, user);
+            }
+            else
+            {
+                await _imageService.CreateImageFromStreamAsync(registerUser.AvatarStream, ImageTypes.Avatar, user);
+            }
 
             return await FormJwtTokenAsync(user);
         }

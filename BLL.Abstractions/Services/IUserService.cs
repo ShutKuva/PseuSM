@@ -7,8 +7,8 @@ namespace BLL.Abstractions.Services
     {
         Task<User> GetUserByCredentialsAsync(string login, string password);
         Task<User> GetUserByIdAsync(int id);
-        Task CreateUserAsync(User user);
-        Task UpdateUserAsync(User user);
+        Task<User> CreateUserAsync(User user);
+        Task<User> UpdateUserAsync(User user);
         Task DeleteUserAsync(User user);
     }
 }

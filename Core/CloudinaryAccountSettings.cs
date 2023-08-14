@@ -1,6 +1,6 @@
 ﻿namespace Core
 {
-    public class CloudinarySettings
+    public class CloudinaryAccountSettings
     {
         public string CloudName { get; set; } = string.Empty;
         public string ApiKey { get; set; } = string.Empty;

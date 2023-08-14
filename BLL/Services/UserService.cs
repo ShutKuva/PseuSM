@@ -42,22 +42,28 @@ namespace BLL.Services
             return _mapper.Map<DALUser, User>(usersWithSameID.First());
         }
 
-        public async Task CreateUserAsync(User user)
+        public async Task<User> CreateUserAsync(User user)
         {
             IRepository<DALUser, int, Expression<Func<DALUser, bool>>>? userRepository = await GetRepositoryAsync();
 
-            await userRepository.CreateEntityAsync(_mapper.Map<User, DALUser>(user));
+            DALUser dalUser = _mapper.Map<User, DALUser>(user);
+
+            await userRepository.CreateEntityAsync(dalUser);
 
             await _unitOfWork.CommitAsync();
+
+            return _mapper.Map<User>(dalUser);
         }
 
-        public async Task UpdateUserAsync(User user)
+        public async Task<User> UpdateUserAsync(User user)
         {
             IRepository<DALUser, int, Expression<Func<DALUser, bool>>>? userRepository = await GetRepositoryAsync();
 
             await userRepository.UpdateEntityAsync(_mapper.Map<User, DALUser>(user));
 
             await _unitOfWork.CommitAsync();
+
+            return _mapper.Map<User>(await GetUserByIdAsync(user.Id));
         }
 
         public async Task DeleteUserAsync(User user)

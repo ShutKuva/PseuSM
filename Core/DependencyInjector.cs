@@ -14,11 +14,16 @@ namespace Core
                 properties.SecretKey = isDevelopment ? configuration["JwtOptions:SecretKey"]! : configuration["JWT_SEWCRET_KEY"]!;
             });
 
-            serviceCollection.Configure<CloudinarySettings>(settings =>
+            serviceCollection.Configure<CloudinaryAccountSettings>(settings =>
             {
-                settings.CloudName = isDevelopment ? configuration["CloudinarySettings:CloudName"]! : configuration["CLOUDINARY_CLOUD_NAME"]!;
-                settings.ApiKey = isDevelopment ? configuration["CloudinarySettings:ApiKey"]! : configuration["CLOUDINARY_API_KEY"]!;
-                settings.ApiSecret = isDevelopment ? configuration["CloudinarySettings:ApiSecret"]! : configuration["CLOUDINARY_API_SECRET"]!;
+                settings.CloudName = isDevelopment ? configuration["CloudinaryAccountSettings:CloudName"]! : configuration["CLOUDINARY_CLOUD_NAME"]!;
+                settings.ApiKey = isDevelopment ? configuration["CloudinaryAccountSettings:ApiKey"]! : configuration["CLOUDINARY_API_KEY"]!;
+                settings.ApiSecret = isDevelopment ? configuration["CloudinaryAccountSettings:ApiSecret"]! : configuration["CLOUDINARY_API_SECRET"]!;
+            });
+
+            serviceCollection.Configure<CloudinaryParameters>(parameters =>
+            {
+                parameters.DefaultImageUrl = isDevelopment ? configuration["CloudinaryParameters:DefaultImageUrl"]! : configuration["CLOUDINARY_DEFAULT_IMAGE_URL"]!;
             });
         }
     }

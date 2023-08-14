@@ -6,6 +6,8 @@ using AdapterLoginUser = Adapters.Entities.LoginUser;
 using AdaptersJwtToken = Adapters.Entities.JwtToken;
 using Core;
 using PseuSM.Entities;
+using PseuSM.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace PseuSM.Controllers
 {
@@ -23,9 +25,13 @@ namespace PseuSM.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser(RegisterUser registerUser)
+        public async Task<IActionResult> RegisterUser([FromForm]RegisterUserModel registerUser)
         {
-            AdaptersJwtToken jwtToken = await _userAdapter.RegisterUserAsync(_mapper.Map<RegisterUser, AdapterRegisterUser>(registerUser));
+            RegisterUser user = _mapper.Map<RegisterUser>(registerUser);
+
+            var test = _mapper.Map<RegisterUser, AdapterRegisterUser>(user);
+
+            AdaptersJwtToken jwtToken = await _userAdapter.RegisterUserAsync(_mapper.Map<RegisterUser, AdapterRegisterUser>(user));
 
             SetRefreshTokenInHttpOnlyCookie(jwtToken.RefreshToken);
 

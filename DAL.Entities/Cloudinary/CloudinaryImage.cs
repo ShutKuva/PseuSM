@@ -6,7 +6,6 @@ namespace DAL.Entities.Cloudinary
     {
         public string PublicId { get; set; } = string.Empty;
 
-        public int ImageId { get; set; }
-        public Image Image { get; set; } = null!;
+        public ICollection<Image> Images { get; set; } = new List<Image>();
     }
 }
