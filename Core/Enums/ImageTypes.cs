@@ -5,5 +5,6 @@
     {
         Avatar = 1,
         Regular = 2,
+        Background = 4
     }
 }

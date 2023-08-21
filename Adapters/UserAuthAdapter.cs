@@ -8,26 +8,30 @@ using Tools.Abstractions;
 using BLLUser = BLL.Entities.User;
 using BLLImage = BLL.Entities.Image;
 using Core.Enums;
+using BLL.Parameters;
 
 namespace Adapters
 {
     public class UserAuthAdapter : IUserAuthAdapter
     {
-        private readonly IUserService _userService;
+        private readonly IUserService<GetUserParams> _userService;
         private readonly IImageService _imageService;
+        private readonly IImagePlaceholderService _imagePlaceholderService;
         private readonly IJwtService _jwtService;
         private readonly IHasher _hasher;
         private readonly IMapper _mapper;
 
         public UserAuthAdapter(
-            IUserService userService,
+            IUserService<GetUserParams> userService,
             IImageService imageService,
+            IImagePlaceholderService imagePlaceholderService,
             IJwtService jwtService,
             IHasher hasher,
             IMapper mapper)
         {
             _userService = userService;
             _imageService = imageService;
+            _imagePlaceholderService = imagePlaceholderService;
             _jwtService = jwtService;
             _hasher = hasher;
             _mapper = mapper;
@@ -43,7 +47,7 @@ namespace Adapters
 
             if (registerUser.AvatarStream == null)
             {
-                await _imageService.CreatePlaceholderImageAsync(ImageTypes.Avatar, user);
+                await _imagePlaceholderService.CreateImageFromImagePlaceholderAsync(ImageTypes.Avatar, user);
             }
             else
             {

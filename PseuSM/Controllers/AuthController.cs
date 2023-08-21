@@ -25,7 +25,7 @@ namespace PseuSM.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser([FromForm]RegisterUserModel registerUser)
+        public async Task<OkObjectResult> RegisterUser([FromForm]RegisterUserModel registerUser)
         {
             RegisterUser user = _mapper.Map<RegisterUser>(registerUser);
 
@@ -39,7 +39,7 @@ namespace PseuSM.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginUser(LoginUser loginUser)
+        public async Task<OkObjectResult> LoginUser(LoginUser loginUser)
         {
             AdaptersJwtToken jwtToken = await _userAdapter.LoginUserAsync(_mapper.Map<LoginUser, AdapterLoginUser>(loginUser));
 
@@ -49,7 +49,7 @@ namespace PseuSM.Controllers
         }
 
         [HttpGet("refresh")]
-        public async Task<IActionResult> RefreshAccessToken()
+        public async Task<OkObjectResult> RefreshAccessToken()
         {
             string refreshToken = Request.Cookies.FirstOrDefault(cookie => cookie.Key == CookiesConstants.RefreshToken).Value;
 

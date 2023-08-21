@@ -23,7 +23,7 @@ namespace PseuSM.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("current")]
-        public async Task<IActionResult> GetCurrentUserInformation()
+        public async Task<OkObjectResult> GetCurrentUserInformation()
         {
             int id = int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == UserClaimsConstants.Id)?.Value ?? throw new ArgumentException("Unable to retrieve id"));
 
@@ -31,7 +31,7 @@ namespace PseuSM.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserInformationById(int id)
+        public async Task<OkObjectResult> GetUserInformationById(int id)
         {
             return Ok(_mapper.Map<User>(await _userAdapter.GetUserByIdAsync(id)));
         }

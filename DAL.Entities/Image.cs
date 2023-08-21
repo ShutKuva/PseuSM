@@ -1,5 +1,6 @@
 ﻿using Core.Enums;
 using DAL.Entities.BaseEntities;
+using DAL.Entities.Cloudinary;
 
 namespace DAL.Entities
 {
@@ -10,5 +11,10 @@ namespace DAL.Entities
 
         public int? UserId { get; set; }
         public User? User { get; set; } = null!;
+        public ImagePlaceholder? ImagePlaceholder { get; set; } = null!;
+        public int? PostId { get; set; }
+        public Post? Post { get; set; } = null!;
+        public int? CloudinaryEntityId { get; set; }
+        public CloudinaryEntity? CloudinaryEntity { get; set; } = null!;
     }
 }

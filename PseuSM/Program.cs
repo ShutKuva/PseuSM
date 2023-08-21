@@ -1,7 +1,10 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using PseuSM.Extensions;
+using PseuSM.Hubs;
+using PseuSM.Implementations;
 using System.Text;
 
 namespace PseuSM
@@ -18,6 +21,8 @@ namespace PseuSM
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSignalR();
 
             Adapters.DependencyInjector.Inject(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
             Core.DependencyInjector.Inject(builder.Services, builder.Configuration, builder.Environment.IsDevelopment());
@@ -42,6 +47,8 @@ namespace PseuSM
                     };
                 });
 
+            builder.Services.AddSingleton<IUserIdProvider, IdUserIDProvider>();
+
             builder.Services.AddAutoMapper(typeof(Program));
 
             var app = builder.Build();
@@ -59,7 +66,7 @@ namespace PseuSM
 
             app.UseCors(builder =>
             {
-                builder.AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader();
+                builder.AllowAnyMethod().WithOrigins("http://localhost:3000").AllowAnyHeader().AllowCredentials();
             });
 
             app.UseHttpsRedirection();
@@ -68,6 +75,8 @@ namespace PseuSM
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.MapHub<FriendsHub>("/friends");
 
             app.Run();
         }

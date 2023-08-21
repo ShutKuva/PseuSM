@@ -2,16 +2,17 @@
 using Adapters.Entities;
 using AutoMapper;
 using BLL.Abstractions.Services;
+using BLL.Parameters;
 using BLLUser = BLL.Entities.User;
 
 namespace Adapters
 {
     public class UserAdapter : IUserAdapter
     {
-        private readonly IUserService _userService;
+        private readonly IUserService<GetUserParams> _userService;
         private readonly IMapper _mapper;
 
-        public UserAdapter(IUserService userService, IMapper mapper)
+        public UserAdapter(IUserService<GetUserParams> userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;

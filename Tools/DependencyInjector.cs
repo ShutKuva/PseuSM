@@ -9,6 +9,7 @@ namespace Tools
         public static void Inject(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddScoped<IHasher, HasherSHA256>();
+            serviceCollection.AddScoped<ITimeService, TimeService>();
         }
     }
 }

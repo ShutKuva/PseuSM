@@ -6,6 +6,6 @@
         public string Login { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
 
-        public IFormFile Avatar { get; set; } = null!;
+        public IFormFile? Avatar { get; set; } = null!;
     }
 }

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace BLL.Abstractions.Services
 {
-    public interface IUserService
+    public interface IUserService<TParams> : ISequenceGetterService<User, TParams>
     {
         Task<User> GetUserByCredentialsAsync(string login, string password);
         Task<User> GetUserByIdAsync(int id);
