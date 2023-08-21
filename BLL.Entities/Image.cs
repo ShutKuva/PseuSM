@@ -1,10 +1,10 @@
-﻿using Core.Enums;
+﻿using BLL.Entities.BaseEntities;
+using Core.Enums;
 
 namespace BLL.Entities
 {
-    public class Image
+    public class Image : BaseEntity
     {
-        public int Id { get; set; }
         public string Reference { get; set; } = string.Empty;
         public ImageTypes Type { get; set; } = ImageTypes.Regular;
     }

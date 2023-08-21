@@ -10,6 +10,8 @@ namespace Adapters
         {
             serviceCollection.AddScoped<IUserAuthAdapter, UserAuthAdapter>();
             serviceCollection.AddScoped<IUserAdapter, UserAdapter>();
+            serviceCollection.AddScoped<IFriendsAdapter, FriendsAdapter>();
+            serviceCollection.AddScoped<ISearchAdapter, SearchAdapter>();
 
             serviceCollection.AddAutoMapper(typeof(DependencyInjector));
 

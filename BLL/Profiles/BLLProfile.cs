@@ -3,7 +3,8 @@ using BLL.Entities;
 using DALUser = DAL.Entities.User;
 using DALImage = DAL.Entities.Image;
 using DALImagePlaceholder = DAL.Entities.ImagePlaceholder;
-using DALCloudinaryImage = DAL.Entities.Cloudinary.CloudinaryImage;
+using DALCloudinaryEntity = DAL.Entities.Cloudinary.CloudinaryEntity;
+using DALPost = DAL.Entities.Post;
 
 namespace BLL.Profiles
 {
@@ -14,7 +15,8 @@ namespace BLL.Profiles
             CreateMap<DALUser, User>().ReverseMap();
             CreateMap<DALImage, Image>().ReverseMap();
             CreateMap<DALImagePlaceholder, ImagePlaceholder>().ReverseMap();
-            CreateMap<DALCloudinaryImage, CloudinaryImage>().ReverseMap();
+            CreateMap<DALCloudinaryEntity, CloudinaryEntity>().ReverseMap();
+            CreateMap<DALPost, Post>().ReverseMap();
         }
     }
 }

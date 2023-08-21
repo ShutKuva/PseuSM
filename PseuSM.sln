@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Abstractions", "Tools
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PseuSM.Entities", "PseuSM.Entities\PseuSM.Entities.csproj", "{9BF120BC-48D0-4D07-B813-E3EF0805D09E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PseuSM.Abstractions", "PseuSM.Abstractions\PseuSM.Abstractions.csproj", "{BBA52DF1-4AFA-42FE-B8B0-50E39D0168C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{9BF120BC-48D0-4D07-B813-E3EF0805D09E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BF120BC-48D0-4D07-B813-E3EF0805D09E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BF120BC-48D0-4D07-B813-E3EF0805D09E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBA52DF1-4AFA-42FE-B8B0-50E39D0168C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBA52DF1-4AFA-42FE-B8B0-50E39D0168C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBA52DF1-4AFA-42FE-B8B0-50E39D0168C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBA52DF1-4AFA-42FE-B8B0-50E39D0168C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

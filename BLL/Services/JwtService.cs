@@ -13,13 +13,11 @@ using DALUser = DAL.Entities.User;
 
 namespace BLL.Services
 {
-    public class JwtService : ServiceBase<DALUser>, IJwtService
+    public class JwtService :IJwtService
     {
         private readonly JwtProperties _jwtProperties;
 
-        public JwtService(
-            IUnitOfWork unitOfWork,
-            IOptions<JwtProperties> jwtPropertiesOptions) : base(unitOfWork)
+        public JwtService(IOptions<JwtProperties> jwtPropertiesOptions)
         {
             _jwtProperties = jwtPropertiesOptions.Value ?? throw new ArgumentNullException(nameof(jwtPropertiesOptions));
         }

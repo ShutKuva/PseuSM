@@ -7,6 +7,7 @@ namespace DAL.Entities
     {
         public ImageTypes Type { get; set; }
 
+        public int ImageId { get; set; }
         public Image Image { get; set; } = null!;
     }
 }

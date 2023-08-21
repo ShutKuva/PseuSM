@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BLL.Abstractions.Services;
 using BLL.Entities;
+using BLL.MappedAbstractions;
+using BLL.Parameters;
 using BLL.Services.BaseServices;
 using DAL.Abstractions.Repository;
 using DAL.Abstractions.UnitOfWork;
@@ -9,13 +11,10 @@ using DALUser = DAL.Entities.User;
 
 namespace BLL.Services
 {
-    public class UserService : ServiceBase<DALUser>, IUserService
+    public class UserService : ServiceBase<User, DALUser>, IUserService<GetUserParams>, IProGetterService<User, DALUser>
     {
-        private readonly IMapper _mapper;
-
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
-            _mapper = mapper;
         }
 
         public async Task<User> GetUserByCredentialsAsync(string login, string password)
@@ -27,7 +26,7 @@ namespace BLL.Services
                 throw new ArgumentException("There is no user with this credentials");
             }
 
-            return _mapper.Map<DALUser, User>(usersWithSameCredentials.First());
+            return _mapper.Map<User>(usersWithSameCredentials.First());
         }
 
         public async Task<User> GetUserByIdAsync(int id)
@@ -39,40 +38,38 @@ namespace BLL.Services
                 throw new ArgumentException("There is no user with this id");
             }
 
-            return _mapper.Map<DALUser, User>(usersWithSameID.First());
+            return _mapper.Map<User>(usersWithSameID.First());
         }
 
-        public async Task<User> CreateUserAsync(User user)
+        public async Task<IEnumerable<User>> GetEntitiesByPredicateAsync(GetUserParams parameters)
         {
-            IRepository<DALUser, int, Expression<Func<DALUser, bool>>>? userRepository = await GetRepositoryAsync();
+            return _mapper.Map<IEnumerable<User>>(await GetUsersThatFitPredicate(parameters.Predicate));
+        }
 
-            DALUser dalUser = _mapper.Map<User, DALUser>(user);
+        public async Task<IEnumerable<User>> GetEntitiesByPredicateAsync(Expression<Func<DALUser, bool>> predicate)
+        {
+            return _mapper.Map<IEnumerable<User>>(await GetUsersThatFitPredicate(predicate));
+        }
 
-            await userRepository.CreateEntityAsync(dalUser);
+        public Task<User> CreateUserAsync(User user)
+        {
+            DALUser dalUser = _mapper.Map<DALUser>(user);
 
-            await _unitOfWork.CommitAsync();
-
-            return _mapper.Map<User>(dalUser);
+            return CreateEntityAsync(dalUser) ;
         }
 
         public async Task<User> UpdateUserAsync(User user)
         {
-            IRepository<DALUser, int, Expression<Func<DALUser, bool>>>? userRepository = await GetRepositoryAsync();
+            DALUser dalUser = _mapper.Map<DALUser>(user);
 
-            await userRepository.UpdateEntityAsync(_mapper.Map<User, DALUser>(user));
+            await UpdateDalEntityAsync(dalUser);
 
-            await _unitOfWork.CommitAsync();
-
-            return _mapper.Map<User>(await GetUserByIdAsync(user.Id));
+            return _mapper.Map<User>(dalUser);
         }
 
-        public async Task DeleteUserAsync(User user)
+        public Task DeleteUserAsync(User user)
         {
-            IRepository<DALUser, int, Expression<Func<DALUser, bool>>>? userRepository = await GetRepositoryAsync();
-
-            await userRepository.DeleteEntityAsync(user.Id);
-
-            await _unitOfWork.CommitAsync();
+            return DeleteEntityAsync(user.Id);
         }
 
         private async Task<IEnumerable<DALUser>> GetUsersThatFitPredicate(Expression<Func<DALUser, bool>> predicate)

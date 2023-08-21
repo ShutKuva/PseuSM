@@ -2,6 +2,8 @@
 using AutoMapper;
 using BLLUser = BLL.Entities.User;
 using BLLImage = BLL.Entities.Image;
+using BLLSearchResult = BLL.Entities.SearchResult;
+using BLLPost = BLL.Entities.Post;
 
 namespace Adapters.Profiles
 {
@@ -13,6 +15,8 @@ namespace Adapters.Profiles
             CreateMap<BLLUser, LoginUser>().ReverseMap();
             CreateMap<BLLUser, User>().ReverseMap();
             CreateMap<BLLImage, Image>().ReverseMap();
+            CreateMap<BLLSearchResult, SearchResult>().ReverseMap();
+            CreateMap<BLLPost, Post>().ReverseMap();
         }
     }
 }

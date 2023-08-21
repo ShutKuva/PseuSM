@@ -1,4 +1,6 @@
-﻿namespace PseuSM.Entities
+﻿using Microsoft.AspNetCore.Http;
+
+namespace PseuSM.Entities
 {
     public class RegisterUser
     {
